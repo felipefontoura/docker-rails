@@ -16,12 +16,8 @@ RUN \
 # Locale
 RUN \
   apt-get update && apt-get install -yqq locales && \
-  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN \
-  echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-  locale-gen && \
-  export LC_ALL=en_US.UTF-8
+  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+  echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && export LC_ALL=en_US.UTF-8
 
 # Gems
 RUN \
