@@ -2,24 +2,20 @@ FROM ruby:2.3.3
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# Yarn
+# Install
 RUN \
-  apt-get update && apt-get install -yqq curl apt-transport-https && \
+  apt-get update && apt-get install -yqq apt-transport-https && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-  apt-get update && apt-get install -yqq yarn && \
+  apt-get update && apt-get install -yqq yarn nodejs npm locales && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Nodejs
 RUN \
-  apt-get update && apt-get install -yqq nodejs npm && \
-  update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10 && \
-  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
 
 # Locale
 RUN \
-  apt-get update && apt-get install -yqq locales && \
-  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && export LC_ALL=en_US.UTF-8
 
 # Gems
