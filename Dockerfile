@@ -1,8 +1,11 @@
 FROM ruby:2.3.3
 
+ENV DEBIAN_FRONTEND noninteractive
+
 # Nodejs
 RUN \
-  apt-get update && apt-get install -yqq nodejs --no-install-recommends && \
+  apt-get update && apt-get install -yqq nodejs npm && \
+  update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10 && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Yarn
