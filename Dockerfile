@@ -26,4 +26,4 @@ RUN \
 # Gems
 RUN \
   gem install bundler --no-ri --no-rdoc && \
-  gem install dpl --no-ri --no-rdoc && \
+  gem install dpl --no-ri --no-rdoc
