@@ -1,12 +1,19 @@
 FROM ruby:2.3.3
 
-# Global install yarn
+# Nodejs
 RUN \
-  apt-get update && apt-get install -y curl apt-transport-https && \
+  apt-get update && apt-get install -yqq nodejs --no-install-recommends && \
+  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Yarn
+RUN \
+  apt-get update && apt-get install -yqq curl apt-transport-https && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-  apt-get update && apt-get install -yqq yarn
+  apt-get update && apt-get install -yqq yarn && \
+  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Locale
 RUN \
   apt-get update && apt-get install -yqq locales && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -16,6 +23,7 @@ RUN \
   locale-gen && \
   export LC_ALL=en_US.UTF-8
 
+# Gems
 RUN \
   gem install bundler --no-ri --no-rdoc && \
   gem install dpl --no-ri --no-rdoc && \
