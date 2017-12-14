@@ -1,4 +1,4 @@
-FROM ruby:2.3-slim
+FROM ruby:2.3.3
 
 ENV LANG C.UTF-8
 
@@ -69,4 +69,4 @@ RUN YARN_VERSION=$(curl -sSL --compressed https://yarnpkg.com/latest-version) \
   && ln -s /opt/yarn/bin/yarn /usr/local/bin/yarnpkg \
   && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz
 
-RUN gem install bundler dpl --no-ri --no-rdoc && \
+RUN gem install bundler dpl --no-ri --no-rdoc
