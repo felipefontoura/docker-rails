@@ -70,3 +70,20 @@ RUN YARN_VERSION=$(curl -sSL --compressed https://yarnpkg.com/latest-version) \
   && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz
 
 RUN gem install bundler dpl --no-ri --no-rdoc
+
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+  echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
+
+RUN apt-get update && apt-get install -y xvfb google-chrome-stable && \
+  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ADD xvfb.sh /etc/init.d/xvfb
+ADD entrypoint.sh /entrypoint.sh
+
+ENV DISPLAY :99
+ENV CHROME_BIN /usr/bin/google-chrome
+
+RUN chmod +x /etc/init.d/xvfb && \
+  chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
